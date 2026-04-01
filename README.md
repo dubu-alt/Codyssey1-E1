@@ -1,4 +1,4 @@
-# 🚀 개발 워크스테이션 구축 - 최종 보고서
+# 🚀 개발 워크스테이션 구축하기!
 
 > **작성자**: [SUNG WONMO]  
 > **작성일**: 2026년 03월 31일  
@@ -182,48 +182,47 @@ Server:
 
 ```bash
 $ pwd
-C:\my-dev-workspace
+vnkers948441/desktop/workspace
 ```
 
 #### 파일 목록 보기 (숨김 파일 포함)
 
 ```bash
 $ ls -la
-total 234
-drwxr-xr-x  1 user user    0 Mar 31 10:50 .
-drwxr-xr-x  1 user user    0 Mar 31 10:40 ..
-drwxr-xr-x  1 user user    0 Mar 31 10:45 .git
--rw-r--r--  1 user user 2048 Mar 31 11:20 README.md
--rw-r--r--  1 user user 1024 Mar 31 10:50 Dockerfile
-drwxr-xr-x  1 user user    0 Mar 31 10:45 app
--rw-r--r--  1 user user  256 Mar 31 10:45 .gitignore
+total 88
+drwxr-xr-x   6 vnkers948441  vnkers948441    192 Apr  1 11:16 .
+drwx------+  5 vnkers948441  vnkers948441    160 Apr  1 11:02 ..
+drwxr-xr-x  15 vnkers948441  vnkers948441    480 Apr  1 11:19 .git
+-rw-r--r--   1 vnkers948441  vnkers948441     52 Apr  1 11:03 bin.txt
+-rw-r--r--@  1 vnkers948441  vnkers948441  13044 Apr  1 11:16 final_checklist.md
+-rw-r--r--@  1 vnkers948441  vnkers948441  22910 Apr  1 11:16 README.md
 ```
 
 #### 폴더 생성
 
 ```bash
-$ mkdir test-folder
-$ ls -d test-folder
+$ mkdir workspace
+$ ls -d workspace  (파일 존재 여부 확인)
 test-folder
 ```
 
 #### 파일 생성 및 내용 확인
 
 ```bash
-$ echo "Hello Docker!" > hello.txt
+$ echo "안녕하세요!" > hello.txt
 $ cat hello.txt
-Hello Docker!
+안녕하세요!
 ```
 
 #### 파일 권한 변경
 
 ```bash
-$ ls -l hello.txt
--rw-r--r-- 1 user user 13 Mar 31 11:20 hello.txt
+$ ls -l hello.txt (권한 확인)
+-rw-r--r--  1 vnkers948441  vnkers948441  16 Apr  1 11:24 hello.txt
 
-$ chmod +x hello.txt
-$ ls -l hello.txt
--rwxr-xr-x 1 user user 13 Mar 31 11:20 hello.txt
+$ chmod +x hello.txt (권한 변경)
+$ ls -l hello.txt (권한 재확인)
+-rwxr-xr-x  1 vnkers948441  vnkers948441  16 Apr  1 11:24 hello.txt
 
 → 실행 권한(x) 추가됨 ✅
 ```
@@ -234,7 +233,7 @@ $ ls -l hello.txt
 
 ```bash
 $ docker --version
-Docker version 24.0.0, build abc1234
+Docker version 28.5.2, build ecc6942
 ```
 
 #### Docker 정보 확인
@@ -242,20 +241,24 @@ Docker version 24.0.0, build abc1234
 ```bash
 $ docker info | head -20
 Client:
- Version:    24.0.0
- OS/Arch:    windows/amd64
- Context:    default
+ Version:    28.5.2
+ Context:    orbstack
+ Debug Mode: false
+ Plugins:
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v0.29.1
+    Path:     /Users/vnkers948441/.docker/cli-plugins/docker-buildx
+  compose: Docker Compose (Docker Inc.)
+    Version:  v2.40.3
+    Path:     /Users/vnkers948441/.docker/cli-plugins/docker-compose
 
 Server:
- Engine:
-  Version:  24.0.0
-  OS/Arch:  windows/amd64
-  Experimental: false
- Containers: 2
-  Running: 1
+ Containers: 0
+  Running: 0
   Paused: 0
-  Stopped: 1
- Images: 5
+  Stopped: 0
+ Images: 0
+ Server Version: 28.5.2
 ```
 
 #### hello-world 컨테이너 실행
@@ -268,7 +271,7 @@ This message shows that your installation appears to be working correctly.
 
 To generate this message, Docker took the following steps:
  1. The Docker client contacted the Docker daemon.
- 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.(amd64)
  ...
 
 → 성공! ✅
@@ -278,21 +281,21 @@ To generate this message, Docker took the following steps:
 
 ```bash
 $ docker run -it ubuntu bash
-root@abc123:/# ls -la
-total 48
-drwxr-xr-x   1 root root 4096 Mar 31 10:50 .
-drwxr-xr-x   1 root root 4096 Mar 31 10:50 ..
--rw-r--r--   1 root root  220 Feb  2 09:04 .bashrc
+root@e2421e459f8e:/# ls -la
+total 16
+drwxr-xr-x   1 root root   6 Apr  1 02:29 .
+drwxr-xr-x   1 root root   6 Apr  1 02:29 ..
+-rwxr-xr-x   1 root root   0 Apr  1 02:29 .dockerenv
+lrwxrwxrwx   1 root root   7 Apr 22  2024 bin -> usr/bin
+drwxr-xr-x   1 root root   0 Apr 22  2024 boot
 ...
 
-root@abc123:/# echo "안녕하세요!"
-안녕하세요!
+root@e2421e459f8e:/# echo "hello"
+hello
 
-root@abc123:/# cat /etc/os-release | grep NAME
+root@e2421e459f8e:/# cat /etc/os-release
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
 NAME="Ubuntu"
-VERSION_ID="22.04"
-
-root@abc123:/# exit
 
 → Ubuntu 컨테이너 진입 & 명령 실행 성공! ✅
 ```
@@ -316,7 +319,6 @@ $ docker ps -a
 CONTAINER ID   IMAGE              COMMAND              CREATED         STATUS
 e8b3c4d5f6a7   hello-world        "/hello"             10 minutes ago  Exited (0)
 c1f2d3e4f5a6   ubuntu             "bash"               8 minutes ago   Exited (0)
-a9b8c7d6e5f4   my-web-server:1.0  "python3 app.py"     5 minutes ago   Up 3 minutes
 ```
 
 #### 실행 중인 컨테이너만 확인
@@ -333,90 +335,43 @@ a9b8c7d6e5f4   my-web-server:1.0  "python3 app.py"     5 minutes ago  Up 3 minut
 #### Dockerfile 작성
 
 ```dockerfile
-FROM ubuntu:22.04
+# 1. 가벼운 웹 서버 이미지인 nginx:alpine을 베이스로 사용
+FROM nginx:alpine
 
-RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
-    && rm -rf /var/lib/apt/lists/*
+# 2. "hello world" 내용이 담긴 index.html 파일을 nginx 기본 경로에 생성
+RUN echo "hello world" > /usr/share/nginx/html/index.html
 
-COPY app/ /app/
-
-WORKDIR /app
-
-EXPOSE 8000
-
-CMD ["python3", "app.py"]
+# 3. 컨테이너 내부에서 80번 포트를 사용함을 명시 (생략 가능)
+EXPOSE 80
 ```
 
-**위치:** `my-dev-workspace/Dockerfile`
+**위치:** `vnkers948441/workspace/app/Dockerfile`
 
-#### Python 웹 서버 코드
-
-**파일:** `app/app.py`
-
-```python
-from http.server import HTTPServer, SimpleHTTPRequestHandler
-import os
-
-class MyHandler(SimpleHTTPRequestHandler):
-    def do_GET(self):
-        if self.path == '/':
-            self.path = '/index.html'
-        return SimpleHTTPRequestHandler.do_GET(self)
-
-os.chdir('/app')
-server = HTTPServer(('0.0.0.0', 8000), MyHandler)
-print("🌟 웹 서버 시작됨! http://localhost:8000 접속하세요")
-server.serve_forever()
-```
-
-**파일:** `app/index.html`
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Hello World</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            text-align: center;
-            background-color: #f0f0f0;
-        }
-        h1 {
-            color: #333;
-        }
-    </style>
-</head>
-<body>
-    <h1>🌟 안녕하세요!</h1>
-    <p>첫 번째 웹 페이지입니다.</p>
-    <p>Docker 컨테이너에서 실행 중입니다.</p>
-</body>
-</html>
-```
 
 #### 이미지 빌드
 
 ```bash
 $ docker build -t my-web-server:1.0 .
 
-[+] Building 45.2s (7/7) FINISHED
- => [internal] load build definition from Dockerfile                        0.1s
- => => transferring dockerfile: 452B                                        0.0s
- => [1/4] FROM ubuntu:22.04                                               25.3s
- => => pulling sha256:abc1234567...                                         
- => => downloading layer 1/1...                                           25.0s
- => [2/4] RUN apt-get update && apt-get install -y python3                18.5s
- => => running in container abc123...                                      18.2s
- => [3/4] COPY app/ /app/                                                  0.2s
- => [4/4] WORKDIR /app                                                     0.0s
- => exporting to image                                                      0.1s
- => => exporting layers                                                     0.1s
- => => writing image sha256:f1a2b3c4d5e6...                                0.0s
- => => naming to docker.io/library/my-web-server:1.0                       0.0s
+[+] Building 8.0s (6/6) FINISHED                                                                  docker:orbstack
+ => [internal] load build definition from Dockerfile                                                         0.2s
+ => => transferring dockerfile: 372B                                                                         0.0s
+ => [internal] load metadata for docker.io/library/nginx:alpine                                              3.1s
+ => [internal] load .dockerignore                                                                            0.1s
+ => => transferring context: 2B                                                                              0.0s
+ => [1/2] FROM docker.io/library/nginx:alpine@sha256:e7257f1ef28ba17cf7c248cb8ccf6f0c6e0228ab9c315c152f9c20  3.6s
+ => => resolve docker.io/library/nginx:alpine@sha256:e7257f1ef28ba17cf7c248cb8ccf6f0c6e0228ab9c315c152f9c20  0.1s
+ => => sha256:d5030d429039a823bef4164df2fad7a0defb8d00c98c1136aec06701871197c2 12.32kB / 12.32kB             0.0s
+ => => sha256:e7257f1ef28ba17cf7c248cb8ccf6f0c6e0228ab9c315c152f9c203cd34cf6d1 10.33kB / 10.33kB             0.0s
+ => => sha256:7e89aa6cabfc80f566b1b77b981f4bb98413bd2d513ca9a30f63fe58b4af6903 2.50kB / 2.50kB               0.0s
+ => => sha256:589002ba0eaed121a1dbf42f6648f29e5be55d5c8a6ee0f8eaa0285cc21ac153 3.86MB / 3.86MB               0.5s
+ => => extracting sha256:4d9d41f3822d171ccc5f2cdfd75ad846ac4c7ed1cd36fb998fe2c0ce4501647b                    0.0s
+ => => extracting sha256:3370263bc02adcf5c4f51831d2bf1d54dbf9a6a80b0bf32c5c9b9400630eaa08                    0.4s
+ => [2/2] RUN echo "hello world" > /usr/share/nginx/html/index.html                                          0.4s
+ => exporting to image                                                                                       0.2s
+ => => exporting layers                                                                                      0.1s
+ => => writing image sha256:872edd14e1995ede46be97c09c9b4dd86c27657a36465141a55d7f22fe5fb3ad                 0.0s
+ => => naming to docker.io/library/my-web-server:1.0 
 
 Successfully tagged my-web-server:1.0
 
@@ -426,10 +381,10 @@ Successfully tagged my-web-server:1.0
 #### 컨테이너 실행
 
 ```bash
-$ docker run --name my-server -p 8000:8000 my-web-server:1.0
+% docker run -d -p 8080:80 --name my-web-container my-web-server:1.0
 
-🌟 웹 서버 시작됨! http://localhost:8000 접속하세요
-(컨테이너가 실행 중입니다... Ctrl+C로 중지 가능)
+🌟 웹 서버 시작됨! http://localhost:8080 접속
+(컨테이너가 실행 중입니다... Ctrl+C 중지)
 ```
 
 ### 4-4) 포트 매핑 및 브라우저 접속
@@ -437,20 +392,16 @@ $ docker run --name my-server -p 8000:8000 my-web-server:1.0
 #### 브라우저 접속
 
 ```
-주소: http://localhost:8000
+주소: http://localhost:8080
 ```
 
 **스크린샷:**
+![컨테이너 실행 결과](<https://github.com/user-attachments/assets/2b36fd28-1a2f-4200-8b4c-5b10c3731117>)
+
 ```
 [주소 표시줄]
 URL: http://localhost:8000
 
-[웹 페이지]
-🌟
-안녕하세요!
-
-첫 번째 웹 페이지입니다.
-Docker 컨테이너에서 실행 중입니다.
 ```
 
 ✅ **접속 성공!**
@@ -474,7 +425,7 @@ local     my-data-volume
 
 ```bash
 $ docker run --name my-server-vol \
-  -p 8000:8000 \
+  -p 8080:8000 \
   -v my-data-volume:/data \
   my-web-server:1.0
 

@@ -665,7 +665,6 @@ bind: address already in use
 
 Error: failed to start container ...
 ```
-![이미지](<https://github.com/user-attachments/assets/2b36fd28-1a2f-4200-8b4c-5b10c3731117](https://github.com/user-attachments/assets/09014ef7-3465-4a34-bb55-77398390e681/>)
 
 #### 원인 가설
 - 포트 8000을 이미 다른 컨테이너가 사용 중
@@ -977,17 +976,6 @@ my-dev-workspace/
 - [x] 민감한 정보 (토큰, 비밀번호) 마스킹 완료
 
 ---
-
-## 🎉 완료!
-
-이 보고서를 통해 다음을 달성했습니다:
-
-✅ **개발 환경 구축**: Git, Docker, VS Code 연동  
-✅ **실습 완료**: 20개 이상의 터미널 명령어 실행  
-✅ **서버 배포**: Python 웹 서버를 Docker 컨테이너로 실행  
-✅ **데이터 보존**: 볼륨과 바인드 마운트로 데이터 영속성 확보  
-✅ **코드 공유**: GitHub에 프로젝트 업로드  
-✅ **문서화**: 모든 과정을 상세히 기록  
 
 ---
 

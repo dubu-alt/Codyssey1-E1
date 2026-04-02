@@ -57,6 +57,9 @@ WSL (Windows Subsystem for Linux)
 ```
 $ git --version
 git version 2.40.0.windows.1
+
+vnkers948441@c3r3s7 workspace % git --version
+git version 2.53.0
 ```
 
 #### Docker

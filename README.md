@@ -8,7 +8,7 @@
 
 | OS | 터미널 | 파일시스템 | 권한 시스템 | chmod |
 |----|--------|----------|-----------|-------|
-| **Windows** | PowerShell / Git Bash | NTFS | ACL | ❌ (무시됨) |
+| **Windows** | PowerShell / Git Bash | NTFS | ACL | ❌ (안됨) |
 | **Mac** | Terminal / Zsh | APFS / HFS+ | Unix 권한 | ✅ (작동) |
 | **Linux** | Bash / Zsh | ext4 / ext3 | Unix 권한 | ✅ (작동) |
 
@@ -188,7 +188,7 @@ docker stats           # 리소스 사용량
 docker images          # 설치된 이미지 목록
 docker pull ubuntu     # 이미지 다운로드
 docker build -t my-app:1.0 .   # Dockerfile로 이미지 빌드
-docker rmi image-id    # 이미지 삭제
+docker rmi image-id    # 원하는 이미지 삭제
 docker inspect image-id  # 이미지 상세 정보
 docker tag old-name new-name   # 이미지 태그 변경
 ```

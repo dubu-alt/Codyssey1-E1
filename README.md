@@ -504,10 +504,12 @@ root@def456:/app# cat /data/important.txt
 ```
 
 ### 4-6) 바인드 마운트 검증
+호스트의 실제 디렉토리를 컨테이너에 마운트해서 파일 동기화
 
-#### 로컬 폴더에서 파일 생성
+#### 로컬 폴더에서 새 파일 생성
 
 ```bash
+pwd
 $ mkdir shared-data
 
 $ echo "공유 데이터입니다" > shared-data/test.txt
@@ -550,7 +552,7 @@ root@ghi789:/app# exit
 
 ```bash
 $ cat shared-data/test.txt
-
+ 
 공유 데이터입니다
 컨테이너 추가 데이터
 
@@ -564,7 +566,7 @@ $ cat shared-data/test.txt
 ```bash
 $ git config --list | grep user
 
-user.name=홍길동
+user.name=이름쓰기
 user.email=gildong@example.com
 
 user.useConfigOnly=true
@@ -677,17 +679,13 @@ Error: failed to start container ...
    $ docker ps
    
    CONTAINER ID   IMAGE              COMMAND
-   a9b8c7d6e5f4   my-web-server:1.0  "python3 app.py"
+   a9b8c7d6e5f4   my-web-server:1.0  "index.html"
    
    → 포트 8000 사용 중! 🔴
 
 2. 정지된 컨테이너 확인:
    $ docker ps -a
    
-3. Windows에서 포트 사용 중인 프로그램 확인:
-   $ netstat -ano | findstr :8000
-   
-   TCP    127.0.0.1:8000          LISTENING       1234
 ```
 
 #### 해결 방법
@@ -902,12 +900,11 @@ fatal: unable to read askpass response
 
 ```
 GitHub 저장소:
-https://github.com/dubu-alt/my-dev-workspace
+https://github.com/dubu-alt/Fist-Mission_Setup
 
 디렉토리 구조:
 my-dev-workspace/
 ├── app/
-│   ├── app.py
 │   └── index.html
 ├── Dockerfile
 ├── README.md
@@ -970,4 +967,3 @@ my-dev-workspace/
 
 **작성자**: [SUNG WONMO]  
 **최종 수정**: 2026년 3월 31일  
-**상태**: ✅ 완료 & 검증됨

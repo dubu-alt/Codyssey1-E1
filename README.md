@@ -342,6 +342,7 @@ a9b8c7d6e5f4   my-web-server:1.0  "python3 app.py"     5 minutes ago  Up 3 minut
 FROM nginx:alpine
 
 # 2. "hello world" 내용이 담긴 index.html 파일을 nginx 기본 경로에 생성
+# 두번째방법은 내 컴퓨터의 index.html을 컨테이너 내부의 Nginx 경로로 복사 --> COPY index.html /usr/share/nginx/html/index.html
 RUN echo "hello world" > /usr/share/nginx/html/index.html
 
 # 3. 컨테이너 내부에서 80번 포트를 사용함을 명시 (생략 가능)
@@ -427,18 +428,40 @@ local     my-nginx-data
 #### 볼륨 연결하여 컨테이너 실행
 
 ```bash
-$ docker run --name my-server-vol \
-  -p 8080:80 \
-  -v my-nginx-data:/data
-  my-web-server:1.0
+docker run --name my-server-vol -p 8080:80 -v my-nginx-data:/data my-web-server:1.0
 
+/docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+/docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
+10-listen-on-ipv6-by-default.sh: info: Enabled listen on IPv6 in /etc/nginx/conf.d/default.conf
+/docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+/docker-entrypoint.sh: Configuration complete; ready for start up
+2026/04/03 02:44:50 [notice] 1#1: using the "epoll" event method
+2026/04/03 02:44:50 [notice] 1#1: nginx/1.29.7
+2026/04/03 02:44:50 [notice] 1#1: built by gcc 15.2.0 (Alpine 15.2.0) 
+2026/04/03 02:44:50 [notice] 1#1: OS: Linux 6.17.8-orbstack-00308-g8f9c941121b1
+2026/04/03 02:44:50 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 20480:1048576
+2026/04/03 02:44:50 [notice] 1#1: start worker processes
+2026/04/03 02:44:50 [notice] 1#1: start worker process 30
+2026/04/03 02:44:50 [notice] 1#1: start worker process 31
+2026/04/03 02:44:50 [notice] 1#1: start worker process 32
+2026/04/03 02:44:50 [notice] 1#1: start worker process 33
+2026/04/03 02:44:50 [notice] 1#1: start worker process 34
+2026/04/03 02:44:50 [notice] 1#1: start worker process 35
+192.168.215.1 - - [03/Apr/2026:02:45:29 +0000] "GET / HTTP/1.1" 304 0 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Safari/605.1.15" "-"
 🌟 웹 서버 시작됨!
 ```
+
+### 볼륨 연결 후 컨테이너 실행하고 난뒤 로컬호스트 실행 이미지
+<img width="1090" height="192" alt="Screenshot 2026-04-03 at 11 47 10 AM" src="https://github.com/user-attachments/assets/76ee4817-3e94-4796-a96b-193add842b0c" />
 
 #### 컨테이너 내부에서 데이터 생성
 
 ```bash
-$ docker exec -it my-nginx-data-vol sh
+$ docker exec -it my-server-vol sh
 
 root@abc123:/app# echo "중요한 데이터입니다!" > /data/important.txt
 
@@ -453,24 +476,26 @@ drwxr-xr-x    1 root     root            40 Apr  1 05:04 ..
 
 root@abc123:/app# exit
 ```
+<img width="1507" height="264" alt="Screenshot 2026-04-03 at 12 10 25 PM" src="https://github.com/user-attachments/assets/77d6b0d5-4c84-4c09-b67c-8127229806bd" />
 
 #### 컨테이너 삭제 전 볼륨 확인
 
 ```bash
 $ docker ps -a | grep my-server-vol
-a9b8c7d6e5f4   my-web-server:1.0   "python3 app.py"  5 min ago   Exited (137)
+d9a627c13762   my-web-server:1.0   "/docker-entrypoint.…"   26 minutes ago      Up 26 minutes 0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   my-server-vol
 ```
 
 #### 컨테이너 삭제
 
 ```bash
-$ docker container rm my-nginx-data-vol
+$ docker container rm my-server-vol
 
-my-nginx-data-vol
+my-server-vol
 
 $ docker ps -a | grep my-server-vol
 (아무것도 출력 안 됨 = 컨테이너 삭제됨)
 ```
+<img width="1457" height="211" alt="Screenshot 2026-04-03 at 12 17 32 PM" src="https://github.com/user-attachments/assets/1d774b8c-a1cd-4160-b5a7-11f39999155b" />
 
 #### 볼륨 유지 확인
 
@@ -478,9 +503,9 @@ $ docker ps -a | grep my-server-vol
 $ docker volume ls
 
 DRIVER    VOLUME NAME
-local     my-data-volume
+local     my-ngnix-data
 
-← 볼륨은 여전히 존재! ✅
+← 볼륨은 여전히 살아있음! ✅
 ```
 
 #### 새 컨테이너로 데이터 복구

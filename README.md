@@ -190,8 +190,8 @@ vnkers948441/desktop/workspace
 
 #### 파일 목록 보기 (숨김 파일 포함)
 
-```bash
-$ ls -la
+```
+ls -la
 total 88
 drwxr-xr-x   6 vnkers948441  vnkers948441    192 Apr  1 11:16 .
 drwx------+  5 vnkers948441  vnkers948441    160 Apr  1 11:02 ..
@@ -204,9 +204,9 @@ drwxr-xr-x  15 vnkers948441  vnkers948441    480 Apr  1 11:19 .git
 #### 폴더 생성
 
 ```bash
-$ mkdir workspace
-$ ls -d workspace  (파일 존재 여부 확인)
-test-folder
+mkdir workspace
+ls -d workspace  (파일 존재 여부 확인)
+worksapce
 ```
 
 #### 파일 생성 및 내용 확인
@@ -1013,4 +1013,4 @@ my-dev-workspace/
 ---
 
 **작성자**: [SUNG WONMO]  
-**최종 수정**: 2026년 3월 31일  
+**최종 수정**: 2026년 4월 3일  

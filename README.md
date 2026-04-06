@@ -259,6 +259,9 @@ $ ls -l hello.txt (권한 재확인)
 -rwxr-xr-x  1 vnkers948441  vnkers948441  16 Apr  1 11:24 hello.txt
 
 → 실행 권한(x) 추가
+
+또는 chmod 755 hello.txt
+chmod 644 hello.txt
 ```
 
 ### 4-2) Docker 검증

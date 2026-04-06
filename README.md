@@ -1,4 +1,4 @@
-# 🚀 개발 워크스테이션 구축하기!
+# 개발 워크스테이션 구축하기!
 
 > **작성자**: [SUNG WONMO]  
 > **작성일**: 2026년 03월 31일  
@@ -6,32 +6,19 @@
 
 ---
 
-## 📌 1. 프로젝트 개요!
+### 큰 과정 맥락
 
-### 미션 목표
-
-```
-✅ Git, Docker, VS Code를 활용한 로컬 개발 환경 구축
-✅ 간단한 웹 서버 만들기
-✅ Docker 이미지 빌드 및 컨테이너 실행
-✅ 포트 매핑을 통한 브라우저 접속
-✅ Docker 볼륨으로 데이터 영속성 확보
-✅ GitHub에 소스코드 업로드
-```
-
-### 주요 성과
-
-| 항목 | 상태 | 비고 |
-|------|------|------|
-| Windows 개발 환경 구축 | ✅ | Git, Docker, VS Code 설치 |
-| 터미널/파일 조작 | ✅ | pwd, ls, mkdir, cd, touch 등 |
-| 파일 권한 실습 | ✅ | chmod 명령으로 권한 변경 테스트 |
-| Docker 설치 및 검증 | ✅ | docker --version, docker info |
-| 기본 컨테이너 실행 | ✅ | hello-world, ubuntu 컨테이너 |
-| 커스텀 웹 서버 구축 | ✅ | Dockerfile, 웹 이미지 실행 앱 작성 |
-| 포트 매핑 접속 | ✅ | http://localhost:8080 |
-| 데이터 영속성 검증 | ✅ | Docker 볼륨, 바인드 마운트 |
-| Git & GitHub 연동 | ✅ | 저장소 생성, 커밋, 푸시 |
+| 항목 | 비고 |
+|------|------|
+| 개발 환경 구축| Git, Docker, VS Code 설치 |
+| 터미널/파일 조작 | pwd, ls, mkdir, cd, touch 등 |
+| 파일 권한 실습 | chmod 명령으로 권한 변경 테스트 |
+| Docker 설치 및 검증 | docker --version, docker info |
+| 기본 컨테이너 실행 | hello-world, ubuntu 컨테이너 |
+| 커스텀 웹 서버 구축 | Dockerfile, 웹 이미지 실행 앱 작성 |
+| 포트 매핑 접속 | http://localhost:8080 |
+| 데이터 영속성 검증  | Docker 볼륨, 바인드 마운트 |
+| Git & GitHub 연동 | 저장소 생성, 커밋, 푸시 |
 
 ---
 
@@ -88,24 +75,11 @@ Server:
  ...
 ```
 
-#### VS Code
-
-```
-버전: 1.113.0
-개발자 빌드 X
-커밋: abc1234567
-날짜: 2024-01-15
-
-설치 확장:
-  - Docker (v1.25.0)
-  - Git History (v0.6.20)
-  - Markdown Preview Enhanced (v0.8.8)
-  - Python (v2024.0.0)
 ```
 
 ---
 
-## ✅ 3. 수행 항목 체크리스트
+## 3. 체크리스트
 
 ### 3-1) 터미널 조작
 
@@ -263,7 +237,7 @@ $ chmod +x hello.txt (권한 변경)
 $ ls -l hello.txt (권한 재확인)
 -rwxr-xr-x  1 vnkers948441  vnkers948441  16 Apr  1 11:24 hello.txt
 
-→ 실행 권한(x) 추가됨 ✅
+→ 실행 권한(x) 추가
 ```
 
 ### 4-2) Docker 검증
@@ -313,7 +287,7 @@ To generate this message, Docker took the following steps:
  2. The Docker daemon pulled the "hello-world" image from the Docker Hub.(amd64)
  ...
 
-→ 성공! ✅
+→ 성공
 ```
 
 #### Ubuntu 컨테이너 진입 & 명령 실행
@@ -336,7 +310,7 @@ root@e2421e459f8e:/# cat /etc/os-release
 PRETTY_NAME="Ubuntu 24.04.4 LTS"
 NAME="Ubuntu"
 
-→ Ubuntu 컨테이너 진입 & 명령 실행 성공! ✅
+→ Ubuntu 컨테이너 진입 & 명령 실행
 ```
 
 #### 이미지 목록 확인
@@ -421,7 +395,7 @@ $ docker build -t my-web-server:1.0 .
 
 Successfully tagged my-web-server:1.0
 
-✅ 빌드 성공!
+빌드 성공
 ```
 
 #### 컨테이너 실행
@@ -429,7 +403,7 @@ Successfully tagged my-web-server:1.0
 ```bash
 % docker run -d -p 8080:80 --name my-web-container my-web-server:1.0
 
-🌟 웹 서버 시작됨! http://localhost:8080 접속
+웹 서버 시작됨! http://localhost:8080 접속
 (컨테이너가 실행 중입니다... Ctrl+C 중지)
 ```
 
@@ -450,7 +424,7 @@ URL: http://localhost:8080
 
 ```
 
-✅ **접속 성공!**
+**접속 성공 확인**
 
 ### 4-5) Docker 볼륨 검증
 데이터베이스, 로그 파일 등 사라지면 안 되는 데이터를 보존할 때 볼륨을 사용한다.
@@ -471,6 +445,9 @@ local     my-nginx-data
 
 ```bash
 docker run --name my-server-vol -p 8080:80 -v my-nginx-data:/data my-web-server:1.0
+
+-v my-nginx-data:/data my-web-server:1.0 → my-nginx 볼륨을 컨테이너의 /data경로에 연결
+
 
 /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
 /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
@@ -547,7 +524,7 @@ $ docker volume ls
 DRIVER    VOLUME NAME
 local     my-ngnix-data
 
-← 볼륨은 여전히 살아있음! ✅
+← 볼륨은 여전히 살아있음!
 ```
 
 #### 새 컨테이너로 데이터 복구
@@ -558,7 +535,7 @@ docker run --name my-nginx-data-vol-recovery \
   -v my-nginx-data:/data \
   my-web-server:1.0
 
-🌟 웹 서버 시작됨!
+ 웹 서버 시작
 
 (다른 터미널에서)
 
@@ -567,13 +544,13 @@ docker exec -it my-nginx-data-vol-recovery sh
 root@def456:/app# cat /data/important.txt
 중요한 데이터입니다!
 
-← 데이터 복구 성공! 🎉
+← 데이터 복구
 ```
 
 ### 4-6) 바인드 마운트 검증
-호스트의 실제 디렉토리를 컨테이너에 마운트해서 파일 동기화함
-바인드 마운트를 사용하는 이유는 호스트(Mac)의 파일을 수정하면 컨테이너에 즉시 반영되는지 확인하기 위해서다.
-매번 코드를 수정할때마다 이미지를 재빌드하는 건 비효율적이므로, 바인드 마운트를 활용하면 개발 속도가 크게 향상된다. 
+호스트의 실제 디렉토리를 컨테이너에 마운트해서 파일 동기화함\
+바인드 마운트를 사용하는 이유는 호스트(Mac)의 파일을 수정하면 컨테이너에 즉시 반영되는지 확인하기 위해서다\
+매번 코드를 수정할때마다 이미지를 재빌드하는 건 비효율적이므로, 바인드 마운트를 활용하면 개발 속도가 크게 향상된다.\
 (프론트엔드에서 Live Server 같은 익스텐션을 사용하는 것과 유사한 느낌)
 | 상황 | 결과 |
 |------|------|
@@ -622,7 +599,7 @@ vnkers948441@c3r3s7 share-data % docker run --name bind-mount \
 2026/04/03 02:18:50 [notice] 1#1: start worker process 34
 2026/04/03 02:18:50 [notice] 1#1: start worker process 35
 
-🌟 웹 서버 시작됨!
+웹 서버 시작
 ```
 
 #### 컨테이너 내부에서 확인
@@ -652,25 +629,57 @@ $ cat shared-data/test.txt
 공유 데이터입니다
 컨테이너 추가 데이터
 
-← 바인드 마운트 양방향 동기화 성공! ✅
+← 바인드 마운트 양방향 동기화 성공
 ```
 
 ### 4-7) Git & GitHub 검증
 
-#### Git 설정 확인
+#### Git 로컬에 정보 저장 및 확인 및 초기화 하기
 
 ```bash
-$ git config --list | grep user
+$ git config --global user.name "Dubu"
+git config -- global user.email "vnkers94@gmail.com"
+git config -l
 
-user.name=이름쓰기
-user.email=gildong@example.com
+credential.helper=osxkeychain
+user.name=Dubu
+user.email=vnkers94@gmail.com
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+core.ignorecase=true
+core.precomposeunicode=true
 
-user.useConfigOnly=true
+git init (깃 저장소 초기화 및 설정)
 
-$ git config --global init.defaultBranch
-
-main
+````
+## Git 설정 완료
 ```
+git add . (깃 폴더 전체 선택)
+git commit -m "첫번째 커밋"
+git log (커밋 내역 확인)
+```
+````
+vnkers948441@c3r3s3 workspace % git add .  
+vnkers948441@c3r3s3 workspace % git commit -m "첫번째 커밋"
+[master (최상위-커밋) 96491e0] 첫번째 커밋
+ 9 files changed, 1609 insertions(+)
+ create mode 100644 .DS_Store
+ create mode 100644 README.md
+ create mode 100644 app/Dockerfile
+ create mode 100644 app/index.html
+ create mode 100644 app/test.txt
+ create mode 100644 bin2.txt
+ create mode 100644 final_checklist.md
+ create mode 100644 hello.txt
+ create mode 100644 share-data/share.txt
+vnkers948441@c3r3s3 workspace % git log
+
+commit 96491e0c86b07cff8d0e47749e4237ef1c5c2454 (HEAD -> master)
+Author: Dubu <vnkers94@gmail.com>
+Date:   Mon Apr 6 13:15:51 2026 +0900
+````
 
 #### Git 저장소 상태
 
@@ -686,9 +695,7 @@ nothing to commit, working tree clean
 ```bash
 $ git log --oneline
 
-abc1234 초기 설정: 웹 서버 구축
-def5678 Dockerfile 및 앱 추가
-ghi9012 README.md 작성 완료
+96491e0 (HEAD -> master) 첫번째 커밋
 ```
 
 #### 원격 저장소 확인
@@ -702,7 +709,7 @@ origin  https://github.com/dubu-alt/First_Mission_Setup.git (push)
 
 ---
 
-## 🚨 5. 트러블슈팅
+## 5. 트러블슈팅
 
 ### 문제 1️⃣: "docker: command not found"
 
@@ -744,8 +751,6 @@ command not found: docker
 5. 다시 확인:
    $ docker --version
    Docker version 24.0.0, build abc1234
-   
-✅ 해결!
 ```
 
 ---
@@ -777,7 +782,7 @@ Error: failed to start container ...
    CONTAINER ID   IMAGE              COMMAND
    a9b8c7d6e5f4   my-web-server:1.0  "index.html"
    
-   → 포트 8000 사용 중! 🔴
+   → 포트 8000 사용 중임을 확인 
 
 2. 정지된 컨테이너 확인:
    $ docker ps -a
@@ -790,12 +795,12 @@ Error: failed to start container ...
 ```bash
 $ docker run -p 8001:8000 my-web-server:1.0
 
-🌟 웹 서버 시작됨!
+웹 서버 시작됨!
 
 (다른 터미널에서)
 브라우저: http://localhost:8001
 
-✅ 해결!
+해결
 ```
 
 **방법 2: 기존 컨테이너 정지**
@@ -808,9 +813,8 @@ a9b8c7d6e5f4
 
 $ docker run -p 8000:8000 my-web-server:1.0
 
-🌟 웹 서버 시작됨!
+웹 서버 시작
 
-✅ 해결!
 ```
 
 **방법 3: 컨테이너 삭제 후 재실행**
@@ -821,178 +825,13 @@ my-server
 
 $ docker run --name my-server -p 8000:8000 my-web-server:1.0
 
-🌟 웹 서버 시작됨!
+웹 서버 시작
 
-✅ 해결!
+
 ```
-
 ---
 
-### 문제 3️⃣: "git: command not found"
-
-#### 문제 상황
-```
-터미널에서 git 명령 실행 시:
-
-$ git --version
-command not found: git
-```
-
-#### 원인 가설
-- Git for Windows가 설치되지 않음
-- PowerShell/터미널이 Git 경로를 인식하지 못함
-- 환경변수 PATH에 Git이 등록되지 않음
-
-#### 확인 과정
-```
-1. Git 설치 확인:
-   제어판 > 프로그램 및 기능 → "Git" 검색
-   → 없으면 미설치
-
-2. PATH 환경변수 확인:
-   [Windows 설정] > 시스템 > 고급 시스템 설정
-   → 환경변수 → Path에 "git" 포함 확인
-```
-
-#### 해결 방법
-```bash
-1. Git for Windows 설치
-   → https://git-scm.com/download/win
-   → Git-2.40.0-64-bit.exe 다운로드 및 실행
-   
-2. 설치 옵션:
-   - "Use Git from Git Bash only" 선택 X
-   - "Git from the command line and also from 3rd-party software" 선택 ✅
-   
-3. VS Code 재시작
-   → Ctrl + Shift + `  (새 터미널)
-   
-4. 다시 확인:
-   $ git --version
-   git version 2.40.0.windows.1
-
-✅ 해결!
-```
-
----
-
-### 문제 4️⃣: Dockerfile 빌드 실패 - "COPY failed"
-
-#### 문제 상황
-```
-$ docker build -t my-web-server:1.0 .
-
-[2/4] COPY app/ /app/
-ERROR [2/4] COPY app/ /app/: COPY failed: 
-file not found in build context: app
-
-failed to solve with frontend dockerfile.v0
-```
-
-#### 원인 가설
-- 빌드 명령 위치가 잘못됨
-- app 폴더가 없음
-- 폴더 구조가 잘못됨
-
-#### 확인 과정
-```
-1. 현재 위치 확인:
-   $ pwd
-   workspace
-   
-   → Dockerfile이 있는 폴더여야 함 ✅
-
-2. 폴더 구조 확인:
-   $ ls
-   
-   app/
-   README.md
-   
-   → app 폴더가 있나? ✅
-
-3. app 폴더 내용 확인:
-   $ ls app/
-   
-   Dokcerfile
-   index.html
-   
-   → Dockerfile이 존재하는가 ✅
-```
-
-#### 해결 방법
-```bash
-1. 올바른 위치에서 빌드:
-   
-   $ docker build -t my-web-server:1.0 .
-
-[+] Building 2.1s (7/7) FINISHED                                                         docker:desktop-linux
- => [internal] load build definition from Dockerfile                                                     0.0s
- => => transferring dockerfile: 380B                                                                     0.0s 
- => [internal] load metadata for docker.io/library/nginx:alpine                                          1.6s 
- => [auth] library/nginx:pull token for registry-1.docker.io                                             0.0s
- => [internal] load .dockerignore                                                                        0.0s
- => => transferring context: 2B                                                                          0.0s 
- => [1/2] FROM docker.io/library/nginx:alpine@sha256:e7257f1ef28ba17cf7c248cb8ccf6f0c6e0228ab9c315c152f  0.0s 
- => => resolve docker.io/library/nginx:alpine@sha256:e7257f1ef28ba17cf7c248cb8ccf6f0c6e0228ab9c315c152f  0.0s 
- => CACHED [2/2] RUN echo "hello world" > /usr/share/nginx/html/index.html                               0.0s 
- => exporting to image                                                                                   0.2s 
- => => exporting layers                                                                                  0.0s
- => => exporting manifest sha256:274b872d2cf65913d2c999af3d33afad4bac1ecd554159be27811471c0467e6a        0.0s 
- => => exporting config sha256:2d130a3af9d7fa3a8c48bfab873db07111de8e11e7c59c01734ace476ace6bbb          0.0s 
- => => exporting attestation manifest sha256:e02908f1682a74fe06f5cb448fcb94e79f2b756f75463802115e4192be  0.1s 
- => => exporting manifest list sha256:4787960b1fe96886b047fff6838fd71115982717baf309925411e403f4d148eb   0.0s 
- => => naming to docker.io/library/my-web-server:1.0                                                     0.0s 
- => => unpacking to docker.io/library/my-web-server:1.0 
- 
-
-✅ 해결!
-```
-
----
-
-### 문제 5️⃣: GitHub 푸시 실패 - "Permission denied"
-
-#### 문제 상황
-```
-$ git push -u origin main
-
-error: remote rejection explained by server: 
-GitHub requires authentication
-
-fatal: unable to read askpass response
-```
-
-#### 원인 가설
-- GitHub 계정 로그인 필요
-- 액세스 토큰/SSH 키 설정 필요
-- 저장소 권한 문제
-
-#### 확인 과정
-```
-1. 원격 저장소 URL 확인:
-   $ git remote -v
-   
-   origin https://github.com/dubu-alt/First_Mission_Setup.git 
-
-2. GitHub 계정 로그인 상태 확인
-```
-
-#### 해결 방법
-
-**방법 1: VS Code GitHub 로그인**
-```
-1. VS Code 좌측 하단 프로필 아이콘 > "Sign in with GitHub"
-2. 브라우저에서 GitHub 계정으로 로그인
-3. VS Code에 권한 부여
-4. 다시 푸시:
-   $ git push -u origin main
-   
-✅ 해결!
-```
-
----
-
-## 📂 6. 결과 위치 및 증거
+## 📂 6. 각종 결과 위치
 
 ### 6-1) 소스코드 위치
 
@@ -1001,7 +840,7 @@ GitHub 저장소:
 https://github.com/dubu-alt/Fist-Mission_Setup
 
 디렉토리 구조:
-my-dev-workspace/
+workspace/
 ├── app/
 │   └── index.html
 ├── Dockerfile
@@ -1016,25 +855,12 @@ my-dev-workspace/
 |------|------|------|
 | Docker 설치 | 터미널 | `docker --version` 출력 |
 | 웹 서버 이미지 | 터미널 | `docker images` 목록 |
-| 포트 매핑 | 브라우저 | http://localhost:8000 스크린샷 |
+| 포트 매핑 | 브라우저 | http://localhost:8080 스크린샷 |
 | Docker 볼륨 | 터미널 | `docker volume ls` 출력 |
 | Git 설정 | 터미널 | `git config --list` 출력 |
 | GitHub 연동 | GitHub 웹 | 저장소 페이지 링크 |
 
 ---
-
-## 🛠️ 7. 기술 스택
-
-| 항목 | 선택 | 버전 |
-|------|------|------|
-| OS | Windows 11 | 23H2 |
-| 가상화 | WSL 2 | 1.0.2 |
-| 컨테이너 | Docker | 24.0.0 |
-| 베이스 이미지 | Ubuntu | 22.04 LTS |
-| 런타임 | Python | 3.10 |
-| 웹서버 | HTTP Server | Python built-in |
-| VCS | Git | 2.40.0 |
-| IDE | VS Code | 1.86.0 |
 
 ---
 
@@ -1046,18 +872,17 @@ my-dev-workspace/
 
 ---
 
-## ✅ 9. 최종 체크리스트
+## 9. 최종 체크리스트
 
-- [x] 모든 필수 프로그램 설치 완료
-- [x] 터미널 기초 명령 10개 이상 실습
-- [x] 파일 권한 변경 실습 완료
+- [x] 모든 필수 프로그램 설치 및 확인
+- [x] 터미널 기초 명령어 실습
+- [x] 파일 권한 변경 실습 완료하기
 - [x] Docker 기본 명령어 10개 이상 실행
 - [x] 커스텀 웹 서버 Dockerfile 작성 및 빌드
-- [x] 포트 매핑으로 브라우저 접속 성공
+- [x] 포트 매핑으로 브라우저 접속 성공 확인
 - [x] Docker 볼륨과 바인드 마운트 검증
 - [x] Git 설정 및 GitHub 연동 완료
 - [x] 모든 과정을 README.md에 문서화
-- [x] 민감한 정보 (토큰, 비밀번호) 마스킹 완료
 
 ---
 

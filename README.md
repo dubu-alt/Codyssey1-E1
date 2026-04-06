@@ -384,9 +384,15 @@ RUN echo "hello world" > /usr/share/nginx/html/index.html
 # 3. 컨테이너 내부에서 80번 포트를 사용함을 명시 (생략 가능)
 EXPOSE 80
 ```
+| 명령어 | 역할 |
+|--------|------|
+| `FROM nginx:alpine` | nginx 웹 서버가 설치된 Alpine 이미지를 베이스로 사용 |
+| `RUN echo "hello world" > /usr/share/nginx/html/index.html ...` | 생성된 HTML을 nginx 기본 웹 경로에 복사 |
+| `EXPOSE 80` | 컨테이너가 80번 포트를 사용함을 명시 |
+
+> 도커 안에서 도커를 여는 것(DinD, Docker in Docker)은 일반적으로 불가능하고 전용 이미지와 `--privileged` 옵션이 필요하다. 따라서 `docker-project` 폴더를 컨테이너 바깥(Mac 터미널)으로 옮긴 뒤 이미지를 빌드한다.
 
 **위치:** `vnkers948441/workspace/app/Dockerfile`
-
 
 #### 이미지 빌드
 
@@ -565,7 +571,9 @@ root@def456:/app# cat /data/important.txt
 ```
 
 ### 4-6) 바인드 마운트 검증
-호스트의 실제 디렉토리를 컨테이너에 마운트해서 파일 동기화
+호스트의 실제 디렉토리를 컨테이너에 마운트해서 파일 동기화함
+바인드 마운트를 사용하는 이유는 호스트(Mac)의 파일을 수정하면 컨테이너에 즉시 반영되는지 확인하기 위해서다.
+매번 코드를 수정할때마다 이미지를 재빌드하는 건 비효율적이므로, 바인드 마운트를 활용하면 개발 속도가 크게 향상된다. (프론트엔드에서 Live Server 같은 익스텐션을 사용하는 것과 유사한 느낌)
 
 #### 로컬 폴더에서 새 파일 생성
 

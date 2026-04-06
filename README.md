@@ -334,6 +334,8 @@ root@e2421e459f8e:/# cat /etc/os-release
 PRETTY_NAME="Ubuntu 24.04.4 LTS"
 NAME="Ubuntu"
 
+exit
+
 → Ubuntu 컨테이너 진입 & 명령 실행
 ```
 

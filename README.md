@@ -201,23 +201,52 @@ drwxr-xr-x  15 vnkers948441  vnkers948441    480 Apr  1 11:19 .git
 -rw-r--r--@  1 vnkers948441  vnkers948441  22910 Apr  1 11:16 README.md
 ```
 
-#### 폴더 생성
+#### 폴더 생성 및 삭제,이동, 변경
 
 ```bash
 mkdir workspace
 ls -d workspace  (파일 존재 여부 확인)
 worksapce
+
+Make Directory의 약어로, 폴더를 생성하는 명령어다.
+
+touch — 파일 생성
+
+root@vnkers948441 ❯ touch bin.txt
+파일을 생성하는 명령어다. `.`을 기준으로 파일명과 확장자를 구분한다.
+
+vnkers948441@c3r3s3 workspace % mv bin1.txt bin2.txt
+bin.txt 파일 이름을 bin2.txt  파일이름으로 변경
+
+vnkers948441@c3r3s3 workspace % rm test1.txt
+rm은 remove의 약어로 원하는 파일을 삭제 할수 있다.
+
+vnkers948441@c3r3s3 workspace % rm -d help
+폴더를 삭제하고 싶다면 rm -d 삭제할 디렉토리명 을 써야된다.
+
 ```
 
-#### 파일 생성 및 내용 확인
+#### 텍스트 파일 생성 및 생성한 내용 확인
 
 ```bash
 $ echo "안녕하세요!" > hello.txt
 $ cat hello.txt
 안녕하세요!
 ```
+---
+
+
 
 #### 파일 권한 변경
+Change Mode의 약어로, 숫자로 권한을 지정할 수있다.
+
+| 숫자 | 권한 |
+|------|------|
+| 4 | r (읽기) |
+| 2 | w (쓰기) |
+| 1 | x (실행) |
+
+숫자를 합산하여 사용한다. 순서는 소유자 / 그룹 / 기타 사용자 순이다.
 
 ```bash
 $ ls -l hello.txt (권한 확인)

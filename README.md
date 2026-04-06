@@ -224,6 +224,13 @@ rm은 remove의 약어로 원하는 파일을 삭제 할수 있다.
 vnkers948441@c3r3s3 workspace % rm -d help
 폴더를 삭제하고 싶다면 rm -d 삭제할 디렉토리명 을 써야된다.
 
+cp <복사 대상> <복사할 파일명>
+cp는 Copy의 약어로 원하는 곳으로 복사할 수 있다.
+vnkers948441@c3r3s3 workspace % cp hello.txt bin2.txt
+
+
+mv <대상 파일> <변경될 이름> 형식으로 이름 변경에도 사용할 수 있다.
+vnkers948441@c3r3s3 workspace % mv test.txt app
 ```
 
 #### 텍스트 파일 생성 및 생성한 내용 확인

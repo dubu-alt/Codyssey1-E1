@@ -463,3 +463,38 @@ class QuizGame:
                 "total": total,
                 "percentage": percentage
             }
+
+    def save_data(self):
+        """
+        게임 데이터를 JSON 파일에 저장하는 메서드
+        
+        동작:
+            1. quizzes를 딕셔너리 리스트로 변환
+            2. best_score 포함
+            3. JSON 형식으로 파일에 저장
+        
+        왜 필요한가?
+            - 프로그램을 종료했다가 다시 실행해도
+            - 추가한 퀴즈와 최고 점수가 유지되도록 하기 위함
+        """
+        try:
+            # 저장할 데이터 준비
+            data = {
+                # to_dict(): 각 Quiz 객체를 딕셔너리로 변환
+                "quizzes": [quiz.to_dict() for quiz in self.quizzes],
+                "best_score": self.best_score
+            }
+            
+            # 파일에 쓰기
+            # open(): 파일을 열기
+            # 'w': 쓰기 모드
+            # encoding='utf-8': 한글이 포함될 수 있으므로 UTF-8 사용
+            with open(self.data_file, 'w', encoding='utf-8') as f:
+                # json.dump(): 파이썬 객체를 JSON 형식으로 파일에 저장
+                # ensure_ascii=False: 한글을 그대로 저장
+                # indent=2: 보기 좋게 2칸씩 들여쓰기
+                json.dump(data, f, ensure_ascii=False, indent=2)
+        
+        # IOError, OSError: 파일 입출력 중 발생하는 에러
+        except (IOError, OSError) as e:
+            print(f"⚠️ 데이터 저장 중 오류가 발생했습니다: {e}")

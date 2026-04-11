@@ -498,3 +498,53 @@ class QuizGame:
         # IOError, OSError: 파일 입출력 중 발생하는 에러
         except (IOError, OSError) as e:
             print(f"⚠️ 데이터 저장 중 오류가 발생했습니다: {e}")
+
+    def load_data(self):
+        """
+        JSON 파일에서 데이터를 불러오는 메서드
+        
+        동작:
+            1. state.json 파일이 있는지 확인
+            2. 있으면 파일 읽기
+            3. 없으면 기본 퀴즈 사용
+            4. 파일이 손상되었으면 기본 퀴즈로 복구
+        """
+        # os.path.exists(): 파일이 있는지 확인 (있으면 참, 없으면 거짓)
+        if not os.path.exists(self.data_file):
+            print(f"💾 '{self.data_file}' 파일이 없어서 기본 퀴즈를 사용합니다.")
+            self.quizzes = self.default_quizzes
+            # 기본 퀴즈로 파일 생성
+            self.save_data()
+            return
+        
+        try:
+            # 파일 읽기
+            with open(self.data_file, 'r', encoding='utf-8') as f:
+                # json.load(): JSON 파일을 읽어서 파이썬 객체로 변환
+                data = json.load(f)
+            
+            # 퀴즈 데이터 복원
+            # from_dict(): 딕셔너리에서 Quiz 객체 생성
+            self.quizzes = [Quiz.from_dict(quiz_data) for quiz_data in data.get("quizzes", [])]
+            
+            # 최고 점수 복원
+            self.best_score = data.get("best_score", {"correct": 0, "total": 0, "percentage": 0.0})
+            
+            # 저장된 퀴즈가 없으면 기본 퀴즈 사용
+            if not self.quizzes:
+                print("⚠️ 저장된 퀴즈가 없어서 기본 퀴즈를 사용합니다.")
+                self.quizzes = self.default_quizzes
+                self.save_data()
+        
+        # JSONDecodeError: JSON 파일이 손상되었을 때 발생
+        except json.JSONDecodeError:
+            print(f"⚠️ '{self.data_file}' 파일이 손상되었습니다. 기본 퀴즈를 사용합니다.")
+            self.quizzes = self.default_quizzes
+            self.best_score = {"correct": 0, "total": 0, "percentage": 0.0}
+            self.save_data()
+        
+        # 기타 파일 에러
+        except (IOError, OSError) as e:
+            print(f"⚠️ 데이터 로드 중 오류가 발생했습니다: {e}")
+            self.quizzes = self.default_quizzes
+            self.best_score = {"correct": 0, "total": 0, "percentage": 0.0}

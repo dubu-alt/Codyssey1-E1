@@ -394,3 +394,29 @@ class QuizGame:
         
         # 파일에 저장
         self.save_data()
+
+    def display_quizzes(self):
+        """
+        등록된 모든 퀴즈를 목록으로 보여주는 메서드
+        
+        동작:
+            1. 퀴즈가 있는지 확인
+            2. 각 퀴즈의 문제와 선택지를 번호와 함께 출력
+            3. 정답은 ✓ 마크로 표시
+        """
+        if not self.quizzes:
+            print("\n❌ 등록된 퀴즈가 없습니다.")
+            return
+        
+        print(f"\n📋 퀴즈 목록 (총 {len(self.quizzes)}개)")
+        print("-" * 50)
+        
+        for idx, quiz in enumerate(self.quizzes, 1):
+            # 퀴즈 번호와 문제 출력
+            print(f"{idx}. {quiz.question}")
+            
+            # 4개의 선택지를 반복으로 출력
+            for choice_idx, choice in enumerate(quiz.choices, 1):
+                # 정답은 ✓, 아니면 공백
+                mark = "✓" if choice_idx == quiz.answer else " "
+                print(f"   [{mark}] {choice_idx}. {choice}")

@@ -548,3 +548,77 @@ class QuizGame:
             print(f"⚠️ 데이터 로드 중 오류가 발생했습니다: {e}")
             self.quizzes = self.default_quizzes
             self.best_score = {"correct": 0, "total": 0, "percentage": 0.0}
+
+    def run(self):
+        """
+        게임 메인 루프
+        
+        동작:
+            1. 시작 메시지 출력
+            2. while True로 무한 반복
+            3. 메뉴 표시 → 선택받기 → 해당 기능 실행
+            4. 종료할 때까지 반복
+            5. 프로그램 종료 또는 에러 발생하면 데이터 저장 후 종료
+        """
+        print("\n🎮 영어 단어 퀴즈 게임에 오신 것을 환영합니다!")
+        
+        # while True: 무한 반복 (break를 만날 때까지)
+        while True:
+            try:
+                # 메뉴 표시
+                self.display_menu()
+                
+                # 사용자 선택받기
+                choice = self.get_menu_choice()
+                
+                # if-elif-else: 선택에 따라 다른 작업 수행
+                if choice == 1:
+                    # 메뉴 1: 퀴즈 풀기
+                    self.play_quiz()
+                
+                elif choice == 2:
+                    # 메뉴 2: 퀴즈 추가
+                    self.add_quiz()
+                
+                elif choice == 3:
+                    # 메뉴 3: 퀴즈 목록 보기
+                    self.display_quizzes()
+                
+                elif choice == 4:
+                    # 메뉴 4: 최고 점수 확인
+                    self.display_best_score()
+                
+                elif choice == 5:
+                    # 메뉴 5: 종료
+                    print("\n👋 게임을 종료합니다. 안녕히 가세요!")
+                    # 데이터 저장
+                    self.save_data()
+                    # break: while 루프 탈출 (프로그램 종료)
+                    break
+            
+            # KeyboardInterrupt: Ctrl+C를 눌렀을 때 발생
+            except KeyboardInterrupt:
+                print("\n\n⚠️ Ctrl+C로 인한 중단이 감지되었습니다.")
+                print("📝 데이터를 저장하고 안전하게 종료합니다...")
+                self.save_data()
+                print("👋 게임을 종료합니다.")
+                break
+            
+            # EOFError: 입력 스트림이 종료되었을 때 발생
+            # (주로 파이프라인이나 스크립트에서 입력이 끝났을 때)
+            except EOFError:
+                print("\n⚠️ 입력 스트림이 종료되었습니다.")
+                print("📝 데이터를 저장하고 안전하게 종료합니다...")
+                self.save_data()
+                print("👋 게임을 종료합니다.")
+                break
+            
+            # 예상치 못한 에러 처리
+            except Exception as e:
+                print(f"❌ 예상치 못한 오류가 발생했습니다: {e}")
+                print("계속하려면 엔터를 누르세요...")
+                try:
+                    input()
+                except (KeyboardInterrupt, EOFError):
+                    self.save_data()
+                    break

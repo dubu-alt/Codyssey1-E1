@@ -193,3 +193,204 @@ class QuizGame:
         
         # 프로그램 시작할 때 저장된 데이터 불러오기
         self.load_data()
+
+    def display_menu(self):
+        """
+        메인 메뉴를 화면에 출력하는 메서드
+        
+        동작:
+            화면에 메뉴 5가지를 보기 좋게 출력
+        """
+        # \n: 개행 (새로운 줄)
+        # print(): 화면에 출력하는 함수
+        print("\n" + "=" * 50)
+        print("          영어 단어 퀴즈 게임")
+        print("=" * 50)
+        print("1. 퀴즈 풀기")
+        print("2. 퀴즈 추가")
+        print("3. 퀴즈 목록 보기")
+        print("4. 최고 점수 확인")
+        print("5. 종료")
+        print("=" * 50)
+    
+    def get_menu_choice(self):
+        """
+        사용자로부터 메뉴 선택을 입력받는 메서드
+        
+        동작:
+            1. 사용자 입력받기
+            2. 입력값이 1~5 사이의 숫자인지 확인
+            3. 맞으면 그 숫자를 반환, 틀리면 다시 입력받기
+        
+        반환값: 1~5 사이의 숫자
+        """
+        # while True: 무한 반복 (조건이 거짓이 될 때까지)
+        while True:
+            try:
+                # input(): 사용자로부터 입력받는 함수
+                # .strip(): 앞뒤 공백을 제거하는 메서드
+                choice = input("선택 (1-5): ").strip()
+                
+                # 빈 입력 확인
+                if not choice:  # not: 거짓이면 참, 참이면 거짓 (반대)
+                    print("❌ 빈 입력입니다. 1~5 사이의 숫자를 입력해주세요.")
+                    continue  # 이 반복을 건너뛰고 while 루프의 처음으로 돌아감
+                
+                # int(): 문자열을 정수로 변환하는 함수
+                # 만약 "abc" 같은 숫자가 아닌 것을 넣으면 에러 발생
+                choice_num = int(choice)
+                
+                # 범위 확인
+                # and: 두 조건이 모두 참이어야 참
+                # or: 두 조건 중 하나라도 참이면 참
+                if not (1 <= choice_num <= 5):
+                    print("❌ 1~5 사이의 숫자를 입력해주세요.")
+                    continue
+                
+                # 모든 조건을 통과했으면 숫자를 반환
+                return choice_num
+            
+            # except: try 블록에서 에러가 발생했을 때 실행
+            except ValueError:
+                # 숫자가 아닌 것을 입력했을 때 발생하는 에러
+                print("❌ 숫자를 입력해주세요.")
+
+    def play_quiz(self):
+        """
+        퀴즈를 푸는 메서드
+        
+        동작:
+            1. 퀴즈가 있는지 확인
+            2. 각 퀴즈를 하나씩 출제
+            3. 사용자 답 입력받기
+            4. 정답/오답 판정
+            5. 최종 점수 표시
+            6. 최고 점수 갱신
+        """
+        # 퀴즈가 없으면 함수 종료
+        if not self.quizzes:  # not: 빈 리스트는 거짓
+            print("\n❌ 등록된 퀴즈가 없습니다.")
+            return  # 함수 종료
+        
+        # 총 문제 수 출력
+        print(f"\n📝 총 {len(self.quizzes)}개의 퀴즈가 있습니다.")
+        # len(): 리스트의 길이를 반환하는 함수
+        
+        # 정답 개수를 세기 위한 변수
+        correct_count = 0
+        total_count = len(self.quizzes)
+        
+        # 각 퀴즈를 하나씩 처리
+        # for 변수 in 리스트: 리스트의 각 요소를 차례대로 처리
+        # enumerate(): 요소와 함께 순번(index)도 제공
+        # 1부터 시작하도록 두 번째 인자로 1을 전달
+        for idx, quiz in enumerate(self.quizzes, 1):
+            # 퀴즈 출력 (1번, 2번, ... 형태로)
+            quiz.display(idx)
+            
+            # 사용자 답 입력받기
+            while True:
+                try:
+                    answer = input("답 (1-4): ").strip()
+                    
+                    if not answer:
+                        print("❌ 빈 입력입니다. 1~4 사이의 숫자를 입력해주세요.")
+                        continue
+                    
+                    answer_num = int(answer)
+                    
+                    if not (1 <= answer_num <= 4):
+                        print("❌ 1~4 사이의 숫자를 입력해주세요.")
+                        continue
+                    
+                    break  # 올바른 입력을 받으면 while 루프 탈출
+                
+                except ValueError:
+                    print("❌ 숫자를 입력해주세요.")
+            
+            # 답 확인
+            if quiz.check_answer(answer_num):
+                print("✅ 정답입니다!")
+                correct_count += 1  # +=: 기존 값에 1을 더하기
+            else:
+                # 오답일 때 정답을 알려줌
+                print(f"❌ 오답입니다. 정답: {quiz.answer}번 ({quiz.choices[quiz.answer - 1]})")
+        
+        # 최종 결과 표시
+        # /: 나누기
+        percentage = (correct_count / total_count) * 100
+        print("\n" + "=" * 50)
+        print(f"결과: {correct_count}/{total_count} ({percentage:.1f}%)")
+        # .1f: 소수점 첫째 자리까지만 표시
+        print("=" * 50)
+        
+        # 최고 점수 갱신
+        self.update_best_score(correct_count, total_count)
+        
+        # 데이터 저장
+        self.save_data()
+    
+    def add_quiz(self):
+        """
+        새로운 퀴즈를 추가하는 메서드
+        
+        동작:
+            1. 문제 입력받기
+            2. 4개의 선택지 입력받기
+            3. 정답 번호 입력받기
+            4. 새로운 Quiz 객체 생성
+            5. quizzes 리스트에 추가
+            6. 파일에 저장
+        """
+        print("\n📚 새 퀴즈 추가")
+        print("-" * 50)
+        
+        # 문제 입력받기
+        while True:
+            # input(): 사용자 입력받기
+            question = input("문제를 입력하세요: ").strip()
+            if question:  # 문자열이 비어있지 않으면 참
+                break  # while 루프 탈출
+            print("❌ 빈 입력입니다. 문제를 입력해주세요.")
+        
+        # 선택지 입력받기
+        choices = []  # 빈 리스트 생성
+        for i in range(4):  # 4번 반복 (0, 1, 2, 3)
+            while True:
+                choice = input(f"선택지 {i+1}을(를) 입력하세요: ").strip()
+                if choice:
+                    break
+                print("❌ 빈 입력입니다. 선택지를 입력해주세요.")
+            
+            # append(): 리스트에 요소를 추가하는 메서드
+            choices.append(choice)
+        
+        # 정답 입력받기
+        while True:
+            try:
+                answer = input("정답 번호 (1-4): ").strip()
+                
+                if not answer:
+                    print("❌ 빈 입력입니다. 1~4 사이의 숫자를 입력해주세요.")
+                    continue
+                
+                answer_num = int(answer)
+                
+                if not (1 <= answer_num <= 4):
+                    print("❌ 1~4 사이의 숫자를 입력해주세요.")
+                    continue
+                
+                break
+            
+            except ValueError:
+                print("❌ 숫자를 입력해주세요.")
+        
+        # 새로운 Quiz 객체 생성
+        new_quiz = Quiz(question, choices, answer_num)
+        
+        # 리스트에 추가
+        self.quizzes.append(new_quiz)
+        print("✅ 퀴즈가 추가되었습니다.")
+        
+        # 파일에 저장
+        self.save_data()

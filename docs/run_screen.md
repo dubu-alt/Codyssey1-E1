@@ -16,6 +16,6 @@
 ![best_score.png](./images/best_score.png)
 --
 
-## 5. 퀴즈 추가
-![image (11).png](./images/image%20(11).png)
+## 5. Git log
+![git_log.png](./images/git_log.png)
 --

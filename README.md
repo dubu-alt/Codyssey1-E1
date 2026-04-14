@@ -23,6 +23,7 @@
 ```
 english-quiz-game/
 ├── main.py               # 프로그램 실행 파일
+├── quiz.py               # 개별 퀴즈를 나타내는 클래스
 ├── quiz_game.py          # 게임 관리 클래스
 ├── state.json            # 퀴즈 데이터 및 최고 점수 저장 파일 (자동 생성됨) 
 ├── README.md             # 프로젝트 설명서 (현재 파일)

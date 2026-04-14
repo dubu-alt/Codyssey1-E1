@@ -22,8 +22,9 @@
 
 ```
 english-quiz-game/
-├── quiz_game.py          # 메인 프로그램 (Quiz, QuizGame 클래스)
-├── state.json            # 퀴즈 데이터 및 최고 점수 저장 파일
+├── main.py               # 프로그램 실행 파일
+├── quiz_game.py          # 게임 관리 클래스
+├── state.json            # 퀴즈 데이터 및 최고 점수 저장 파일 (자동 생성됨) 
 ├── README.md             # 프로젝트 설명서 (현재 파일)
 ├── .gitignore            # Git 무시 파일 목록
 └── .git/                 # Git 저장소 정보

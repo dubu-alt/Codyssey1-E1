@@ -32,7 +32,7 @@ english-quiz-game/
 
 ## 브랜치 구조
 ```
-main (메인 브랜치)
+master (메인 브랜치)
     └─ feature/add-quiz (퀴즈 기능)
 ```
 ## 전체적인 흐름도

@@ -35,6 +35,39 @@ english-quiz-game/
 main (메인 브랜치)
     └─ feature/add-quiz (퀴즈 기능)
 ```
+## 전체적인 흐름도
+```
+main.py 실행
+  ↓
+QuizGame 객체 생성
+  ↓
+load_data() → state.json 파일 읽기
+  ↓
+기본 퀴즈 또는 저장된 퀴즈 로드
+  ↓
+게임 시작 (run())
+```
+## 게임 진행
+```
+메뉴 표시
+  ↓
+사용자 선택
+  ↓
+해당 기능 실행
+  ├─ play_quiz(): 퀴즈 풀기
+  ├─ add_quiz(): 퀴즈 추가
+  ├─ display_quizzes(): 목록 보기
+  ├─ display_best_score(): 최고 점수
+  └─ 종료: save_data() 후 끝내기
+```
+## 데이터 저장
+```
+save_data() 호출
+  ↓
+Quiz 객체들을 딕셔너리로 변환
+  ↓
+JSON 형식으로 state.json에 저장
+```
 ---
 
 ## 퀴즈 주제와 선정 이유
@@ -70,7 +103,7 @@ cd english-quiz-gam
 
 #### 2. 프로그램 실행
 ```bash
-python quiz_game.py
+python main.py
 ```
 
 #### 3. 메뉴 사용

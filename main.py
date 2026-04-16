@@ -27,7 +27,36 @@ class Matrix:
     
     def __repr__(self) -> str:
         return f"Matrix({self.size}×{self.size})"
-
+def compute_mac(filter_matrix: Matrix, pattern_matrix: Matrix) -> float:
+    """
+    MAC(Multiply-Accumulate) 연산 수행
+    필터와 패턴을 겹쳐서 같은 위치끼리 곱하고, 결과를 모두 더함
+    
+    Args:
+        filter_matrix: 필터 (Matrix 객체)
+        pattern_matrix: 패턴 (Matrix 객체)
+    
+    Returns:
+        점수 (float)
+    
+    Raises:
+        ValueError: 두 행렬의 크기가 다르면 예외 발생
+    """
+    if filter_matrix.size != pattern_matrix.size:
+        raise ValueError(
+            f"크기 불일치: 필터 {filter_matrix.size}×{filter_matrix.size}, "
+            f"패턴 {pattern_matrix.size}×{pattern_matrix.size}"
+        )
+    
+    score = 0.0
+    n = filter_matrix.size
+    
+    # 반복문으로 직접 구현
+    for i in range(n):
+        for j in range(n):
+            score += filter_matrix.get(i, j) * pattern_matrix.get(i, j)
+    
+    return score
 
 # ============================================================================
 # 6. 모드 1: 사용자 입력 (3×3)

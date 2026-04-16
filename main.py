@@ -244,3 +244,199 @@ def mode_user_input():
     
     except Exception as e:
         print(f"오류: {e}")
+
+# ============================================================================
+# 7. 모드 2: JSON 파일 분석
+# ============================================================================
+
+def load_json_data(filepath: str) -> Optional[Dict]:
+    """
+    JSON 파일에서 필터와 패턴 데이터 로드
+    
+    Args:
+        filepath: data.json 파일 경로
+    
+    Returns:
+        파싱된 JSON 딕셔너리 또는 None
+    """
+    try:
+        with open(filepath, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(f"오류: {filepath} 파일을 찾을 수 없습니다.")
+        return None
+    except json.JSONDecodeError as e:
+        print(f"오류: JSON 형식이 잘못되었습니다. {e}")
+        return None
+
+
+def mode_json_analysis():
+    """모드 2: data.json 파일 분석"""
+    print("\n" + "=" * 50)
+    print("# [모드 2] data.json 분석")
+    print("=" * 50)
+    
+    # JSON 로드
+    data = load_json_data('data.json')
+    if not data:
+        return
+    
+    # 필터 로드
+    print("\n#---------------------------------------")
+    print("# [1] 필터 로드")
+    print("#---------------------------------------")
+    
+    filters = {}
+    try:
+        for size_key in ['size_5', 'size_13', 'size_25']:
+            if size_key not in data.get('filters', {}):
+                print(f"⚠ {size_key} 필터를 찾을 수 없습니다.")
+                continue
+            
+            filter_data = data['filters'][size_key]
+            size = int(size_key.split('_')[1])
+            
+            # 필터별로 라벨 정규화
+            cross_label = None
+            x_label = None
+            
+            for key in filter_data.keys():
+                normalized = normalize_label(key)
+                if normalized == 'Cross':
+                    cross_label = key
+                elif normalized == 'X':
+                    x_label = key
+            
+            if cross_label and x_label:
+                filters[size_key] = {
+                    'size': size,
+                    'cross': Matrix(filter_data[cross_label]),
+                    'x': Matrix(filter_data[x_label]),
+                    'cross_label': cross_label,
+                    'x_label': x_label
+                }
+                print(f"✓ {size_key} 필터 로드 완료 (Cross, X)")
+            else:
+                print(f"⚠ {size_key} 필터가 불완전합니다.")
+    
+    except Exception as e:
+        print(f"오류: 필터 로드 중 문제 발생 - {e}")
+        return
+    
+    # 패턴 분석
+    print("\n#---------------------------------------")
+    print("# [2] 패턴 분석 (라벨 정규화 적용)")
+    print("#---------------------------------------")
+    
+    test_results = []
+    size_performance = {}  # 크기별 성능 데이터 수집
+    
+    patterns = data.get('patterns', {})
+    for pattern_key in sorted(patterns.keys()):
+        pattern_data = patterns[pattern_key]
+        
+        # 패턴 키에서 크기 추출 (예: size_5_1 → size_5)
+        parts = pattern_key.rsplit('_', 1)
+        size_key = parts[0] if len(parts) == 2 else pattern_key
+        
+        if size_key not in filters:
+            print(f"\n- -- {pattern_key} ---")
+            print(f"⚠ {size_key} 필터를 찾을 수 없습니다. [FAIL]")
+            test_results.append((pattern_key, 'FAIL', '필터 누락'))
+            continue
+        
+        try:
+            # 패턴 크기 검증
+            pattern_list = pattern_data.get('input')
+            pattern_size = len(pattern_list)
+            expected_size = filters[size_key]['size']
+            
+            if pattern_size != expected_size:
+                print(f"\n- -- {pattern_key} ---")
+                print(f"⚠ 크기 불일치: 패턴 {pattern_size}×{pattern_size}, "
+                      f"필터 {expected_size}×{expected_size}. [FAIL]")
+                test_results.append((pattern_key, 'FAIL', '크기 불일치'))
+                continue
+            
+            # 패턴을 Matrix로 변환
+            pattern = Matrix(pattern_list)
+            
+            # MAC 연산
+            filter_cross = filters[size_key]['cross']
+            filter_x = filters[size_key]['x']
+            
+            score_cross = compute_mac(filter_cross, pattern)
+            score_x = compute_mac(filter_x, pattern)
+            
+            # 판정
+            result = judge_scores(score_cross, score_x)
+            predicted_label = label_from_judgment(result)
+            
+            # Expected 라벨 정규화
+            expected_raw = pattern_data.get('expected', '')
+            expected_label = normalize_label(expected_raw)
+            
+            # PASS/FAIL 판정
+            is_pass = predicted_label == expected_label
+            pass_fail = 'PASS' if is_pass else 'FAIL'
+            
+            # 콘솔 출력
+            print(f"\n- -- {pattern_key} ---")
+            print(f"Cross 점수: {score_cross}")
+            print(f"X 점수: {score_x}")
+            
+            if result == 'UNDECIDED':
+                print(f"판정: UNDECIDED | expected: {expected_label} | {pass_fail} (동점 규칙)")
+            else:
+                print(f"판정: {predicted_label} | expected: {expected_label} | {pass_fail}")
+            
+            test_results.append((pattern_key, pass_fail, result))
+            
+            # 성능 데이터 수집
+            if expected_size not in size_performance:
+                size_performance[expected_size] = []
+            
+            size_performance[expected_size].append(pattern)
+        
+        except Exception as e:
+            print(f"\n- -- {pattern_key} ---")
+            print(f"오류: {e} [FAIL]")
+            test_results.append((pattern_key, 'FAIL', str(e)))
+    
+    # 성능 분석
+    print("\n#---------------------------------------")
+    print("# [3] 성능 분석 (평균/10회)")
+    print("#---------------------------------------")
+    print(f"{'크기':<8} {'평균 시간(ms)':<16} {'연산 횟수':<10}")
+    print("-" * 40)
+    
+    for size in sorted(size_performance.keys()):
+        if size_performance[size]:
+            # 첫 번째 패턴으로 성능 측정
+            sample_pattern = size_performance[size][0]
+            size_key = f'size_{size}'
+            
+            if size_key in filters:
+                avg_time = measure_mac_time(filters[size_key]['cross'], 
+                                            sample_pattern, iterations=10)
+                operation_count = size * size
+                print(f"{size}×{size:<5} {avg_time:<16.6f} {operation_count:<10}")
+    
+    # 결과 요약
+    print("\n#---------------------------------------")
+    print("# [4] 결과 요약")
+    print("#---------------------------------------")
+    
+    total_tests = len(test_results)
+    passed_tests = sum(1 for _, status, _ in test_results if status == 'PASS')
+    failed_tests = total_tests - passed_tests
+    
+    print(f"총 테스트: {total_tests}개")
+    print(f"통과: {passed_tests}개")
+    print(f"실패: {failed_tests}개")
+    
+    if failed_tests > 0:
+        print("\n실패 케이스:")
+        for pattern_key, status, reason in test_results:
+            if status == 'FAIL':
+                print(f"- {pattern_key}: {reason}")

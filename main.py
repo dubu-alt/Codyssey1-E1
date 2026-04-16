@@ -128,6 +128,33 @@ def label_from_judgment(result: str) -> Optional[str]:
     return label_map.get(result)
 
 # ============================================================================
+# 4. 성능 측정
+# ============================================================================
+
+def measure_mac_time(filter_matrix: Matrix, pattern_matrix: Matrix, 
+                     iterations: int = 10) -> float:
+    """
+    MAC 연산의 평균 실행 시간 측정 (ms 단위)
+    
+    Args:
+        filter_matrix: 필터
+        pattern_matrix: 패턴
+        iterations: 반복 측정 횟수 (기본값 10)
+    
+    Returns:
+        평균 실행 시간 (밀리초)
+    """
+    total_time = 0.0
+    
+    for _ in range(iterations):
+        start = time.time()
+        compute_mac(filter_matrix, pattern_matrix)
+        end = time.time()
+        total_time += (end - start) * 1000  # 초 → 밀리초
+    
+    return total_time / iterations
+
+# ============================================================================
 # 6. 모드 1: 사용자 입력 (3×3)
 # ============================================================================
 

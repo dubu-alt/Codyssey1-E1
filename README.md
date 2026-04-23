@@ -26,4 +26,10 @@ E1-3 (Mini NPU Simulator 개발)
 ├── README.md              # Mini NPU Simulator 기술 명세서
 ├── data.json              # data.json 분석 파일
 └── main.py                # 파이썬 사용자 입력 실행 파일
+
+E2-1 (Term-Project AI E- Commerce)
+├── 최종 기획서.md                         # 기획서 (MarkDown형식)
+├── 시스템 구성도.png                      # 시스템 구성도 이미지 파일
+└── 시스템 아키텍쳐 구조.png               # 시스템 아키텍쳐 이미지 파일
+
 ```

@@ -31,5 +31,6 @@ E2-1 (Term-Project AI E- Commerce)
 ├── 최종 기획서.md                         # 기획서 (MarkDown형식)
 ├── 시스템 구성도.png                      # 시스템 구성도 이미지 파일
 └── 시스템 아키텍쳐 구조.png               # 시스템 아키텍쳐 이미지 파일
-
+└──  MAFIA_2.pptx                          # 발표 PPT 자료
 ```
+

@@ -2,7 +2,7 @@
 AI/SW 개발 워크스테이션 구축 / Git과 함께하는 Python 첫 발자국 / Mini NPU Simulator 개발
 
 ```
-디렉토리 구조:
+전체적인 디렉토리 구조:
 
 E1-1  (AI/SW 개발 워크스테이션 구축)
 ├──workspace/           # 기본 터미널 명령어를 통해 생성된 폴더
@@ -24,6 +24,7 @@ E1-2 (Git과 함께하는 Python 첫 발자국)
 
 E1-3 (Mini NPU Simulator 개발)
 ├── README.md              # Mini NPU Simulator 기술 명세서
+├── E1-3 Concept.md        # 알아야 되는 개념들 문서 정리
 ├── data.json              # data.json 분석 파일
 └── main.py                # 파이썬 사용자 입력 실행 파일
 

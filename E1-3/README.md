@@ -1,5 +1,8 @@
 # Mini NPU Simulator
-MAC(Multiply-Accumulate) 연산을 구현하고 패턴 판별 및 성능 분석을 수행하는 Python 콘솔 애플리케이션입니다.
+MAC(Multiply-Accumulate) 연산을 구현하고 패턴 판별 및 성능 분석을 수행하는 Python 콘솔 애플리케이션입니다.\
+본 미션에서 알아야되는 핵심 개념들은 아래 E1-3 Concept.md에 저장되어 있습니다.
+
+🔖[핵심 개념 살펴보기](<E1-3 Concept.md>)
 ## 필수 기능 요구 사항 
 - n X n 2차원 배열을 객체로 저장할 수 있어야 됨
 - 생성시 모든 행의 길이가 동일한지 검증

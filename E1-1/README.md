@@ -4,6 +4,8 @@
 > **작성일**: 2026년 03월 31일  
 > **GitHub**: [[GitHub 저장소 링크](https://github.com/dubu-alt)]
 
+[🏠홈으로 돌아가기](../README.md)
+
 ---
 
 ### 큰 과정 맥락

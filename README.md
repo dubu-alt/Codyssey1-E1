@@ -1,6 +1,7 @@
 # Codyssey1-E1
 AI/SW 개발 워크스테이션 구축 / Git과 함께하는 Python 첫 발자국 / Mini NPU Simulator 개발\
 아래는 빠르게 원하는 파일로 갈 수 있습니다.
+- [명령어 치트 시트 파일 가기](./Command_CHEATSHEET/)
 - [E1-1 파일 가기](./E1-1/)
 - [E1-2 파일가기](./E1-2/)
 - [E1-3 파일 가기](./E1-3/)

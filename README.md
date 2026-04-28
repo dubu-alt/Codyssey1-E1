@@ -1,6 +1,10 @@
 # Codyssey1-E1
-AI/SW 개발 워크스테이션 구축 / Git과 함께하는 Python 첫 발자국 / Mini NPU Simulator 개발
-
+AI/SW 개발 워크스테이션 구축 / Git과 함께하는 Python 첫 발자국 / Mini NPU Simulator 개발\
+아래는 빠르게 원하는 파일로 갈 수 있습니다.
+- [E1-1 파일 가기](./E1-1/)
+- [E1-2 파일가기](./E1-2/)
+- [E1-3 파일 가기](./E1-3/)
+- [E2-1 파일 가기](./E2-1/)
 ```
 전체적인 디렉토리 구조:
 
@@ -18,7 +22,8 @@ E1-2 (Git과 함께하는 Python 첫 발자국)
 ├── quiz.py               # 개별 퀴즈를 나타내는 클래스
 ├── quiz_game.py          # 게임 관리 클래스
 ├── state.json            # 퀴즈 데이터 및 최고 점수 저장 파일 (자동 생성됨) 
-├── README.md             # 프로젝트 설명서 (현재 파일)
+├── README.md             # E1-2 프로젝트 설명서
+├── E1-2 Concept.md       # 파이썬 기본 개념 문서 정리
 ├── .gitignore            # Git 무시 파일 목록
 └── .git/                 # Git 저장소 정보
 
